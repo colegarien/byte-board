@@ -19,12 +19,12 @@ function init(plugin)
 
         finalImgW = sprite.selection.bounds.width
         finalImgH = sprite.selection.bounds.height
-        while (finalImgW * finalImgH) % 8 ~= 0 do
-          finalImgH = finalImgH + 1
+        while finalImgW % 8 ~= 0 do
+          finalImgW = finalImgW + 1
         end
 
         sprite = app.sprite
-        minX = sprite.selection.bounds.x
+        minX = sprite.selection.bounds.x - app.image.cel.bounds.x
         maxX = minX + sprite.selection.bounds.width - 1
         minY = sprite.selection.bounds.y - app.image.cel.bounds.y
         maxY = minY + sprite.selection.bounds.height - 1
@@ -34,16 +34,21 @@ function init(plugin)
           widthIterated = 0
           for x=minX,maxX,1 do
             widthIterated = widthIterated + 1
-            pixelValue = Color(app.image:getPixel(x, y))
-            if pixelValue.alpha > 0 then
-              binaryString = binaryString .. "1"
-            else 
+            if y >= app.image.bounds.height or x >= app.image.bounds.width then
+              -- trying to read outside of the bounds of the active cel
               binaryString = binaryString .. "0"
+            else
+              pixelValue = Color(app.image:getPixel(x, y))
+              if pixelValue.alpha > 0 then
+                binaryString = binaryString .. "1"
+              else 
+                binaryString = binaryString .. "0"
+              end
             end
           end
           
           -- pad remaining width with zeros
-          widthIterated = widthIterated - finalImgW
+          widthIterated = finalImgW - widthIterated
           while widthIterated > 0 do
             binaryString = binaryString .. "0"
             widthIterated = widthIterated - 1
@@ -53,7 +58,7 @@ function init(plugin)
         end
         
         -- pad in extra height with zeros
-        heightIterated = heightIterated - finalImgH
+        heightIterated = finalImgH - heightIterated
         while heightIterated > 0 do
           -- add entire empty rows to image
           for x=1,finalImgW,1 do
@@ -62,11 +67,21 @@ function init(plugin)
           heightIterated = heightIterated - 1
         end
 
-        output = "static const uint8_t ".. data.const_name .."[] = {\n  "
+        wordsPerLine = finalImgW / 8
+        currentWord = 0
+        output = "// size: ".. finalImgW.." x "..finalImgH.."\nstatic const uint8_t ".. data.const_name .."[] = {\n  "
         for i=1,string.len(binaryString),8 do
             output = output .. "0b" .. string.sub(binaryString, i, i + 7) .. ","
+            currentWord = currentWord + 1
+            if currentWord >= wordsPerLine then
+              currentWord = 0
+              output = output .. "\n"
+              if i + 7 ~= string.len(binaryString) then
+                output = output .. "  "
+              end
+            end
         end
-        output = output .. "\n};"
+        output = output .. "};"
 
         -- copy string to host clipboard
         -- https://community.aseprite.org/t/solved-copy-string-within-aseprite-extension/16344

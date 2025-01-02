@@ -12,6 +12,7 @@ This will convert the selected area into a monochrome `uint8_t` array and copy t
 ### Example Ouput:
 
 ```cpp
+// size: 8 x 5
 static const uint8_t THE_IMG[] = {
   0b00010000,
   0b00011000,
@@ -20,3 +21,8 @@ static const uint8_t THE_IMG[] = {
   0b01111110,
 };
 ```
+
+### Important Notes
+
+- the script will pad 0's to the nearest 8bit alignment
+- the script will read only the active layer + cel + selection
