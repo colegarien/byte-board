@@ -1,0 +1,17 @@
+{
+    "name": "byte-board",
+    "displayName": "Byte Board",
+    "description": "Copy Selection as a Byte Array into the ClipBoard",
+    "version": "0.1",
+    "author": { "name": "Cole Garien",
+                "url": "https://github.com/colegarien" },
+    "contributors": [ ],
+    "publisher": "",
+    "license": "CC-BY-4.0",
+    "categories": [ "Scripts" ],
+    "contributes": {
+      "scripts": [
+          { "path": "./byte-board-script.lua" }
+      ]
+    }
+  }
