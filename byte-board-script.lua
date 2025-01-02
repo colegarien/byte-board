@@ -34,8 +34,8 @@ function init(plugin)
           widthIterated = 0
           for x=minX,maxX,1 do
             widthIterated = widthIterated + 1
-            if y >= app.image.bounds.height or x >= app.image.bounds.width then
-              -- trying to read outside of the bounds of the active cel
+            if y >= app.image.bounds.y + app.image.bounds.height or x >= app.image.bounds.x + app.image.bounds.width or x < app.image.bounds.x or y < app.image.bounds.y then
+              -- trying to read outside of the bounds of the active image
               binaryString = binaryString .. "0"
             else
               pixelValue = Color(app.image:getPixel(x, y))
