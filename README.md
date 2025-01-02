@@ -8,3 +8,15 @@
 ### Purpose
 
 This will convert the selected area into a monochrome `uint8_t` array and copy that array to the clipboard for easy tranfer of graphics from asepsrite to device firmware.
+
+### Example Ouput:
+
+```cpp
+static const uint8_t THE_IMG[] = {
+  0b00010000,
+  0b00011000,
+  0b00110100,
+  0b01111010,
+  0b01111110,
+};
+```
