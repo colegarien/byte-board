@@ -17,13 +17,13 @@ function init(plugin)
 
         binaryString = ""
 
+        sprite = app.sprite
         finalImgW = sprite.selection.bounds.width
         finalImgH = sprite.selection.bounds.height
         while finalImgW % 8 ~= 0 do
           finalImgW = finalImgW + 1
         end
 
-        sprite = app.sprite
         minX = sprite.selection.bounds.x - app.image.cel.bounds.x
         maxX = minX + sprite.selection.bounds.width - 1
         minY = sprite.selection.bounds.y - app.image.cel.bounds.y
