@@ -1,7 +1,7 @@
 ### Usage
 
 1. compress to a .zip
-2. change file extension to `.asesprite-extension`
+2. change file extension to `.aseprite-extension`
 3. Edit -> Preferences -> Extensions -> Add Extension... to add the extension to aseprite
 
 
